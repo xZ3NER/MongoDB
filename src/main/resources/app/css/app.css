@@ -1,0 +1,19 @@
+/*
+    Estilo del boton general de la app
+    Button customization (armed = pressed)
+*/
+
+.button{
+    -fx-background-color: #00ae4a;
+    -fx-effect: dropshadow( gaussian, #436063, 0.0 , 0.0 , 3.0 , 3.0);
+    -fx-background-radius: 25px 0px;
+
+}
+
+.button:hover{
+    -fx-background-color: #009f42;
+}
+
+.button:armed {
+    -fx-effect: none;
+}

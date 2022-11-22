@@ -1,0 +1,77 @@
+/*
+    -Color designs:
+    Primary -> #5e7691 (buttons)
+    Darker-Primary -> #415469 (top-pane)
+    Secondary -> #8c9eb5 (highlights)
+    Background -> #202d3c
+    Font -> #ffffff
+*/
+
+/*
+    Parent component.
+*/
+.root{
+    -fx-background-color: #202d3c;
+    -fx-background-radius: 10px;
+}
+
+/*
+    Pane customization.
+*/
+#pane{
+    -fx-background-color: #415469;
+    -fx-background-radius: 10px 10px 0px 0px;
+}
+
+#top-pane{
+    -fx-effect: dropshadow( gaussian, #000000, 2.0 , 0.0 , 0.0 , 1 );
+}
+
+#sliderPane{
+    -fx-background-color: #8c9eb5;
+    -fx-effect: dropshadow( gaussian, #000000, 5.0 , 0.0 , 0.0 , 1 );
+}
+
+/*
+    Button customization (armed = pressed)
+*/
+.button{
+    -fx-background-color: #5e7691;
+    -fx-effect: dropshadow( gaussian, #000000, 2.0 , 0.0 , 0.0 , 3 );
+}
+
+.button:armed {
+    -fx-effect: none;
+}
+
+.button:hover{
+    -fx-background-color: #8c9eb5;
+}
+
+/*
+    Text input customization.
+*/
+.text-field {
+    -fx-background-color: transparent;
+    -fx-border-width: 1;
+    -fx-border-insets: 0 0 1 0;
+    -fx-border-style: hidden hidden solid hidden;
+    -fx-border-color: #8c9eb5;
+    -fx-text-fill: #ffffff;
+    -fx-prompt-text-fill: #ffffff;
+}
+
+.text-area {
+    -fx-text-fill: #ffffff;
+    -fx-focus-color : #415469;
+    -fx-effect: dropshadow( gaussian, #000000, 2.0 , 0.0 , 0.0 , 2 );
+}
+
+.text-area .content {
+    -fx-background-color: #324154;
+    -fx-border-color: #8c9eb5;
+}
+
+.text-area .content:hover {
+    -fx-border-color: #415469;
+}

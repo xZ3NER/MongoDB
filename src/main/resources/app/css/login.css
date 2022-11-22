@@ -1,0 +1,25 @@
+#pane{
+    -fx-background-radius: 10px 10px 10px 10px;
+}
+.text-field {
+    -fx-background-color: transparent;
+    -fx-border-width: 2;
+    -fx-border-insets: 0 0 1 0;
+    -fx-border-style: hidden hidden solid hidden;
+    -fx-border-color: #e9dc86;
+    -fx-text-fill: #FFF;
+    -fx-prompt-text-fill: #A5A4A4;
+}
+.button{
+    -fx-background-color: #00ae4a;
+    -fx-effect: dropshadow( gaussian, #2d404c, 0.0 , 0.0 , 5.0 , 5 );
+    -fx-background-radius: 25px 0px;
+}
+
+.button:hover{
+    -fx-background-color: #009f42;
+}
+
+.button:armed {
+    -fx-background-color: #008d37;
+}

@@ -1,0 +1,61 @@
+/*
+    Parent component.
+*/
+.root{
+    -fx-background-radius: 15px;
+}
+
+/*
+    Pane customization.
+*/
+.pane{
+    -fx-background-color: #415469;
+    -fx-background-radius: 15px 15px 0px 0px;
+}
+
+#top-pane{
+    -fx-effect: dropshadow( gaussian, #000000, 2.0 , 0.0 , 0.0 , 1 );
+}
+
+/*
+    Button customization (armed = pressed)
+*/
+.button{
+    -fx-background-color: #00ae4a;
+    -fx-effect: dropshadow( gaussian, #436063, 0.0 , 0.0 , 3.0 , 3.0);
+    -fx-background-radius: 25px 0px;
+}
+
+.button:hover{
+    -fx-background-color: #009f42;
+}
+
+.button:armed {
+    -fx-effect: none;
+}
+
+#insert_button{
+    -fx-background-radius: 0px 25px;
+}
+
+/*
+    Text input customization.
+*/
+.text-field {
+    -fx-background-color: transparent;
+    -fx-border-width: 2;
+    -fx-border-insets: 0 0 1 0;
+    -fx-border-style: hidden hidden solid hidden;
+    -fx-border-color: #e9dc86;
+    -fx-text-fill: #FFF;
+    -fx-prompt-text-fill: #A5A4A4;
+}
+.text-area {
+    -fx-text-fill: #ffffff;
+    outline: none;
+}
+
+.text-area .content {
+    -fx-background-color: #086a6f;
+}
+
