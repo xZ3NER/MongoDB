@@ -1,5 +1,6 @@
 package app;
 
+import app.util.TimeLines;
 import app.util.Toast;
 import com.mongodb.client.MongoCollection;
 import javafx.fxml.FXML;
@@ -67,7 +68,7 @@ public class DDBB_InsertController implements Initializable {
     private void changeStage(ObjectId id, String imageUrl) {
         controller.setNewPost(id, imageUrl);
 
-        ((Stage) mainPane.getScene().getWindow()).close();
+        TimeLines.stageClose((Stage) mainPane.getScene().getWindow(),  0.3);
     }
 
     public void initController(DDBB_Controller controller) {
@@ -78,7 +79,8 @@ public class DDBB_InsertController implements Initializable {
     @FXML
     private void cleanImageURL() {
         imageURLInput.setText("");
-        imageView.setImage(null);
+
+        TimeLines.imageClear(imageView,0.3);
     }
 
     @FXML
@@ -95,8 +97,12 @@ public class DDBB_InsertController implements Initializable {
         try {
             Image image = new Image(imageURLInput.getText());
             imageView.setImage(image);
+
+            TimeLines.opacityTimeLine(imageView,0,1,0.3);
+
             return true;
         } catch (IllegalArgumentException ignored) {
+            Toast.makeText((Stage) mainPane.getScene().getWindow(),"Image not found", 1000, 300, 300);
         }
         return false;
     }
@@ -127,12 +133,12 @@ public class DDBB_InsertController implements Initializable {
 
     @FXML
     public void minimizeHandler() {
-        ((Stage) mainPane.getScene().getWindow()).setIconified(true);
+        TimeLines.stageMinimize((Stage) mainPane.getScene().getWindow(), 0.2);
     }
 
     @FXML
     public void exitHandler() {
-        ((Stage) mainPane.getScene().getWindow()).close();
+        TimeLines.stageClose((Stage) mainPane.getScene().getWindow(), 0.2);
     }
 
 

@@ -1,7 +1,6 @@
 package app;
 
 import app.util.TimeLines;
-import app.util.Toast;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import javafx.collections.FXCollections;
@@ -92,11 +91,11 @@ public class DDBB_Controller implements Initializable {
         });
 
         imageView.addEventHandler(MouseEvent.MOUSE_ENTERED,event -> {
-            TimeLines.opacityTimeLine(imageView,imageView.getOpacity(), 1, 0.8);
+            TimeLines.opacityTimeLine(imageView,imageView.getOpacity(), 1, 0.6);
         });
 
         imageView.addEventHandler(MouseEvent.MOUSE_EXITED,event -> {
-            TimeLines.opacityTimeLine(imageView,imageView.getOpacity(), 0.5, 0.8);
+            TimeLines.opacityTimeLine(imageView,imageView.getOpacity(), 0.5, 0.6);
         });
 
         imageViewList.add(imageView);
@@ -121,7 +120,7 @@ public class DDBB_Controller implements Initializable {
             stage.setScene(scene);
 
             stage.show();
-            TimeLines.stageDisplay(stage, 0, 1, 0.3);
+            TimeLines.stageDisplay(stage,  0.3);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -152,7 +151,7 @@ public class DDBB_Controller implements Initializable {
     }
 
     @FXML
-    protected void createButtonHandler(MouseEvent mouseEvent) {
+    protected void createButtonHandler() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("ddbb-insert.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
@@ -170,14 +169,13 @@ public class DDBB_Controller implements Initializable {
             stage.setScene(scene);
 
             stage.show();
-            TimeLines.stageDisplay(stage, 0, 1, 0.3);
+            TimeLines.stageDisplay(stage,  0.3);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
     public void setNewPost(ObjectId id, String imageUrl) {
-        Toast.makeText((Stage) gridPane.getScene().getWindow(),"Post created", 1000, 300, 300);
 
         Image image = new Image(imageUrl, 200, 200, true, true);
         ImageView imageView = new ImageView();
@@ -192,11 +190,11 @@ public class DDBB_Controller implements Initializable {
         });
 
         imageView.addEventHandler(MouseEvent.MOUSE_ENTERED,event -> {
-            TimeLines.opacityTimeLine(imageView,imageView.getOpacity(), 1, 0.8);
+            TimeLines.opacityTimeLine(imageView,imageView.getOpacity(), 1, 0.6);
         });
 
         imageView.addEventHandler(MouseEvent.MOUSE_EXITED,event -> {
-            TimeLines.opacityTimeLine(imageView,imageView.getOpacity(), 0.5, 0.8);
+            TimeLines.opacityTimeLine(imageView,imageView.getOpacity(), 0.5, 0.6);
         });
 
         imageViewList.add(imageView);
@@ -233,7 +231,7 @@ public class DDBB_Controller implements Initializable {
     }
     @FXML
     public void minimizeHandler() {
-        ((Stage) gridPane.getScene().getWindow()).setIconified(true);
+        TimeLines.stageMinimize((Stage) gridPane.getScene().getWindow(), 0.2);
     }
     @FXML
     public void exitHandler() throws IOException {
@@ -247,7 +245,7 @@ public class DDBB_Controller implements Initializable {
         stage.setScene(scene);
 
         stage.show();
-        TimeLines.stageDisplay(stage, 0, 1, 0.4);
+        TimeLines.stageDisplay(stage, 0.4);
 
         ((Stage) gridPane.getScene().getWindow()).close();
     }

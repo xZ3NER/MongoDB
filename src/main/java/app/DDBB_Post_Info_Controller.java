@@ -1,5 +1,6 @@
 package app;
 
+import app.util.TimeLines;
 import app.util.Toast;
 import com.mongodb.client.MongoCollection;
 import javafx.fxml.FXML;
@@ -79,10 +80,10 @@ public class DDBB_Post_Info_Controller {
     private DDBB_Controller controller;
 
     @FXML
-    protected void deleteHandler(MouseEvent mouseEvent) {
+    protected void deleteHandler() {
         controller.deletePost(postId);
 
-        ((Stage) mainPane.getScene().getWindow()).close();
+        TimeLines.stageClose((Stage) mainPane.getScene().getWindow(), 0.3);
     }
 
     public void initController(DDBB_Controller controller) {
@@ -90,7 +91,7 @@ public class DDBB_Post_Info_Controller {
     }
 
     @FXML
-    protected void editButtonHandler(MouseEvent mouseEvent) {
+    protected void editButtonHandler() {
         this.editButton.setVisible(false);
         this.confirmButton.setVisible(true);
 
@@ -102,7 +103,7 @@ public class DDBB_Post_Info_Controller {
     }
 
     @FXML
-    protected void confirmButtonHandler(MouseEvent mouseEvent) {
+    protected void confirmButtonHandler() {
         this.confirmButton.setVisible(false);
         this.editButton.setVisible(true);
 
@@ -157,7 +158,7 @@ public class DDBB_Post_Info_Controller {
     }
 
     @FXML
-    protected void exitHandler(MouseEvent mouseEvent) {
-        ((Stage) mainPane.getScene().getWindow()).close();
+    protected void exitHandler() {
+        TimeLines.stageClose((Stage) mainPane.getScene().getWindow(), 0.2);
     }
 }

@@ -3,14 +3,12 @@ package app.util;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class TimeLines{
+public class TimeLines {
     public static void opacityTimeLine(Node component, double firstValue, double secondValue, double duration) {
         Timeline opacityTimeLine = new Timeline(
                 new KeyFrame(
@@ -25,29 +23,46 @@ public class TimeLines{
         opacityTimeLine.play();
     }
 
-    public static void stageDisplay(Stage stage, double firstValue, double secondValue, double duration) {
+    public static void imageClear(ImageView imageView, double duration) {
         Timeline opacityTimeLine = new Timeline(
                 new KeyFrame(
                         Duration.ZERO,
-                        new KeyValue(stage.opacityProperty(), firstValue)
+                        new KeyValue(imageView.opacityProperty(), 1)
                 ),
                 new KeyFrame(
                         Duration.seconds(duration),
-                        new KeyValue(stage.opacityProperty(), secondValue)
+                        new KeyValue(imageView.opacityProperty(), 0)
+                )
+        );
+        opacityTimeLine.play();
+        opacityTimeLine.setOnFinished(event -> {
+            imageView.setImage(null);
+        });
+    }
+
+    public static void stageDisplay(Stage stage, double duration) {
+        Timeline opacityTimeLine = new Timeline(
+                new KeyFrame(
+                        Duration.ZERO,
+                        new KeyValue(stage.opacityProperty(), 0)
+                ),
+                new KeyFrame(
+                        Duration.seconds(duration),
+                        new KeyValue(stage.opacityProperty(), 1)
                 )
         );
         opacityTimeLine.play();
     }
 
-    public static void stageClose(Stage stage, double firstValue, double secondValue, double duration) {
+    public static void stageClose(Stage stage, double duration) {
         Timeline opacityTimeLine = new Timeline(
                 new KeyFrame(
                         Duration.ZERO,
-                        new KeyValue(stage.opacityProperty(), firstValue)
+                        new KeyValue(stage.opacityProperty(), 1)
                 ),
                 new KeyFrame(
                         Duration.seconds(duration),
-                        new KeyValue(stage.opacityProperty(), secondValue)
+                        new KeyValue(stage.opacityProperty(), 0)
                 )
         );
         opacityTimeLine.play();
@@ -56,5 +71,41 @@ public class TimeLines{
             stage.close();
         });
     }
+
+    public static void stageMinimize(Stage stage, double duration) {
+
+        Timeline opacityTimeLine = new Timeline(
+                new KeyFrame(
+                        Duration.ZERO,
+                        new KeyValue(stage.opacityProperty(), 1)
+                ),
+                new KeyFrame(
+                        Duration.seconds(duration),
+                        new KeyValue(stage.opacityProperty(), 0)
+                )
+        );
+        opacityTimeLine.play();
+
+        opacityTimeLine.setOnFinished(event -> {
+            stage.setIconified(true);
+            stage.setOpacity(1);
+        });
+    }
+
+//    public static void stageMinimize(Stage stage) {
+//        Timeline timeline = new Timeline(
+//                new KeyFrame(Duration.millis(0),
+//                        new KeyValue(stage.opacityProperty(), 1),
+//                        new KeyValue(stage.layoutYProperty(), stage.getLayoutY())
+//                ),
+//                new KeyFrame(Duration.millis(500),
+//                        new KeyValue(stage.opacityProperty(), 0.5),
+//                        new KeyValue(stage.layoutYProperty(), 900 )
+//                )
+//        );
+//        timeline.play();
+//
+//        timeline.setOnFinished(event -> ((Stage) stage.getScene().getWindow()).setIconified(true));
+//    }
 
 }

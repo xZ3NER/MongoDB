@@ -5,9 +5,6 @@ import app.util.TimeLines;
 import app.util.Toast;
 import com.mongodb.MongoWriteException;
 import com.mongodb.client.MongoCollection;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -24,7 +21,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Duration;
 import org.bson.Document;
 
 import java.io.IOException;
@@ -97,8 +93,8 @@ public class LoginController {
 
         controller.initPosts();
 
-        TimeLines.stageClose((Stage) mainPane.getScene().getWindow(), 1, 0, 0.3);
-        TimeLines.stageDisplay(stage, 0, 1, 0.4);
+        TimeLines.stageClose((Stage) mainPane.getScene().getWindow(),  0.3);
+        TimeLines.stageDisplay(stage,  0.4);
     }
 
     @FXML
@@ -127,10 +123,23 @@ public class LoginController {
     private boolean registerMode = false;
     @FXML
     public void changeRegisterMode(){
-        //registerMode = true: registerButton & backText visible
-        //registerMode = false: loginButton & registerTexts visible
+        if (!registerMode) {
+            TimeLines.opacityTimeLine(backLabel, 0, 1, 0.3);
+        }else {
+            TimeLines.opacityTimeLine(backLabel, 1, 0, 0.3);
+        }
+
         registerButton.setVisible(!registerMode);
         backLabel.setVisible(!registerMode);
+
+        if (registerMode) {
+            TimeLines.opacityTimeLine(registerQuestionText, 0, 1, 0.3);
+            TimeLines.opacityTimeLine(registerText, 0, 1, 0.3);
+        }else {
+            TimeLines.opacityTimeLine(registerQuestionText, 1, 0, 0.3);
+            TimeLines.opacityTimeLine(registerText, 1, 0, 0.3);
+        }
+
         loginButton.setVisible(registerMode);
         registerQuestionText.setVisible(registerMode);
         registerText.setVisible(registerMode);
@@ -159,13 +168,13 @@ public class LoginController {
     }
     @FXML
     public void minimizeHandler() {
-        ((Stage) mainPane.getScene().getWindow()).setIconified(true);
+        TimeLines.stageMinimize((Stage) mainPane.getScene().getWindow(), 0.2);
     }
     @FXML
     public void exitHandler() {
-        TimeLines.stageClose((Stage) mainPane.getScene().getWindow(), 1, 0, 0.3);
-    }
+        TimeLines.stageClose((Stage) mainPane.getScene().getWindow(), 0.2);
 
+    }
 
     //Components opacity actions
     @FXML

@@ -14,7 +14,6 @@ import java.util.Objects;
 
 public class Login extends Application {
 
-    //TODO stage opacity time lines and better image views
     public static void main(String[] args) {
         launch(args);
     }
@@ -29,8 +28,7 @@ public class Login extends Application {
         //Icono en la barra de windows
         stage.getIcons().add(new Image(Objects.requireNonNull(this.getClass().getResource("images/Logo_Style2.png")).openStream()));
         stage.setScene(scene);
-
         stage.show();
-        TimeLines.stageDisplay(stage, 0, 1, 0.4);
+        TimeLines.stageDisplay(stage,  0.4);
     }
 }

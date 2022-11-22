@@ -23,7 +23,6 @@
 
 .text-area {
     -fx-background-color: rgba(53,89,119,0.4);
-    -fx-text-fill: #e9dc86;
 }
 
 .text-area .scroll-pane {
@@ -37,6 +36,14 @@
 
 .text-area .scroll-pane .content{
     -fx-background-color: transparent;
+}
+
+#titleLabel{
+    -fx-text-fill: #e9dc86;
+}
+
+#post_body_textA{
+    -fx-text-fill: #ffffff;
 }
 
 #titleLabel .text{
