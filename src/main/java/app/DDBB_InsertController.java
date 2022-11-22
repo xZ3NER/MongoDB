@@ -1,7 +1,9 @@
 package app;
 
+import app.util.Toast;
 import com.mongodb.client.MongoCollection;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -14,13 +16,13 @@ import javafx.stage.Stage;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
-import java.io.IOException;
+import java.net.URL;
 import java.time.LocalDateTime;
+import java.util.ResourceBundle;
 
 import static app.util.TimeLines.opacityTimeLine;
-import static com.mongodb.client.model.Filters.eq;
 
-public class DDBB_InsertController {
+public class DDBB_InsertController implements Initializable {
     @FXML
     private AnchorPane mainPane;
     @FXML
@@ -37,35 +39,37 @@ public class DDBB_InsertController {
     private ImageView exitIcon;
     @FXML
     private ImageView minimizeIcon;
+
     @FXML
     protected void confirmButtonHandler() {
 
         if (!(titleInput.getText().isEmpty()) && isImage()) {
             MongoCollection<Document> coll = LoginController.mongoConnector.getCollection("posts");
             ObjectId objectId = new ObjectId();
-            Document doc = new Document("_id",objectId)
+            Document doc = new Document("_id", objectId)
                     .append("creator_id", LoginController.username)
                     .append("created", LocalDateTime.now())
-                    .append("img",imageURLInput.getText())
+                    .append("img", imageURLInput.getText())
                     .append("post_info",
                             new Document("title", titleInput.getText()).append("post_body", postBodyInput.getText())
                     );
             coll.insertOne(doc);
 
-            System.out.println("Guardado!");
-
-            changeStage(objectId,imageURLInput.getText());
-        }else {
-            System.out.println("Not saved!");
+            changeStage(objectId, imageURLInput.getText());
+        } else {
+            Toast.makeText((Stage) mainPane.getScene().getWindow(), "Creation process failed", 1000, 300, 300);
         }
 
     }
+
     private DDBB_Controller controller;
-    private void changeStage(ObjectId id, String imageUrl){
-        controller.setNewPost(id,imageUrl);
+
+    private void changeStage(ObjectId id, String imageUrl) {
+        controller.setNewPost(id, imageUrl);
 
         ((Stage) mainPane.getScene().getWindow()).close();
     }
+
     public void initController(DDBB_Controller controller) {
         this.controller = controller;
     }
@@ -76,20 +80,24 @@ public class DDBB_InsertController {
         imageURLInput.setText("");
         imageView.setImage(null);
     }
+
     @FXML
     private void cleanTittle() {
         titleInput.setText("");
     }
+
     @FXML
     private void imagePreview() {
         isImage();
     }
+
     private boolean isImage() {
         try {
             Image image = new Image(imageURLInput.getText());
             imageView.setImage(image);
             return true;
-        } catch (IllegalArgumentException ignored) {}
+        } catch (IllegalArgumentException ignored) {
+        }
         return false;
     }
 
@@ -97,26 +105,31 @@ public class DDBB_InsertController {
     @FXML
     private Pane dragablePane;
     private double x, y;
+
     @FXML
     protected void dragHandler(MouseEvent mouseEvent) {
         Stage stage = (Stage) mainPane.getScene().getWindow();
         stage.setX(mouseEvent.getScreenX() - x);
         stage.setY(mouseEvent.getScreenY() - y);
     }
+
     @FXML
     protected void pressHandler(MouseEvent mouseEvent) {
         x = mouseEvent.getSceneX();
         y = mouseEvent.getSceneY();
         dragablePane.setCursor(Cursor.CLOSED_HAND);
     }
+
     @FXML
-    protected void releasedHandler(){
+    protected void releasedHandler() {
         dragablePane.setCursor(Cursor.OPEN_HAND);
     }
+
     @FXML
     public void minimizeHandler() {
         ((Stage) mainPane.getScene().getWindow()).setIconified(true);
     }
+
     @FXML
     public void exitHandler() {
         ((Stage) mainPane.getScene().getWindow()).close();
@@ -127,24 +140,43 @@ public class DDBB_InsertController {
     private void onMouseEnteredApp() {
         opacityTimeLine(logoIcon, logoIcon.getOpacity(), 1, 1);
     }
+
     @FXML
     private void onMouseExitedApp() {
         opacityTimeLine(logoIcon, logoIcon.getOpacity(), 0, 1);
     }
+
     @FXML
     private void onMouseEnteredExitIcon() {
         opacityTimeLine(exitIcon, exitIcon.getOpacity(), 0.8, 1);
     }
+
     @FXML
     private void onMouseExitedExitIcon() {
         opacityTimeLine(exitIcon, exitIcon.getOpacity(), 1, 1);
     }
+
     @FXML
     private void onMouseEnteredMinimizeIcon() {
         opacityTimeLine(minimizeIcon, minimizeIcon.getOpacity(), 0.8, 1);
     }
+
     @FXML
     private void onMouseExitedMinimizeIcon() {
         opacityTimeLine(minimizeIcon, minimizeIcon.getOpacity(), 1, 1);
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        int maxLength = 40;
+
+        titleInput.textProperty().addListener((observableValue, s, t1) -> {
+            if (titleInput.getText().length() > maxLength) {
+                String string = titleInput.getText().substring(0, maxLength);
+                titleInput.setText(string);
+            }
+        });
+
     }
 }

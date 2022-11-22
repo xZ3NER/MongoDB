@@ -1,9 +1,13 @@
 package app;
 
 import app.util.MongoConnector;
+import app.util.TimeLines;
 import app.util.Toast;
 import com.mongodb.MongoWriteException;
 import com.mongodb.client.MongoCollection;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -16,9 +20,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 import org.bson.Document;
 
 import java.io.IOException;
@@ -74,6 +80,7 @@ public class LoginController {
     private void initStage() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("ddbb.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
+        scene.setFill(Color.TRANSPARENT);
 
         DDBB_Controller controller = fxmlLoader.getController();
 
@@ -85,11 +92,13 @@ public class LoginController {
         stage.setResizable(false);
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.setScene(scene);
+
         stage.show();
-//        stage.setIconified(true);
 
         controller.initPosts();
-        ((Stage) mainPane.getScene().getWindow()).close();
+
+        TimeLines.stageClose((Stage) mainPane.getScene().getWindow(), 1, 0, 0.3);
+        TimeLines.stageDisplay(stage, 0, 1, 0.4);
     }
 
     @FXML
@@ -105,7 +114,11 @@ public class LoginController {
                 coll.insertOne(doc);
 
                 Toast.makeText((Stage) mainPane.getScene().getWindow(),"User created", 1000, 300, 300);
+
                 passwordTextF.setText("");
+
+            }else {
+                Toast.makeText((Stage) mainPane.getScene().getWindow(),"Please fill all fields", 1000, 300, 300);
             }
         } catch (MongoWriteException e) {
             Toast.makeText((Stage) mainPane.getScene().getWindow(),"User already exists", 1000, 300, 300);
@@ -150,7 +163,7 @@ public class LoginController {
     }
     @FXML
     public void exitHandler() {
-        ((Stage) mainPane.getScene().getWindow()).close();
+        TimeLines.stageClose((Stage) mainPane.getScene().getWindow(), 1, 0, 0.3);
     }
 
 
@@ -187,4 +200,5 @@ public class LoginController {
     private void onMouseExitedMinimizeIcon() {
         opacityTimeLine(minimizeIcon, minimizeIcon.getOpacity(), 1, 1);
     }
+
 }

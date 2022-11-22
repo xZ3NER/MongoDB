@@ -1,6 +1,7 @@
 package app;
 
 import app.util.TimeLines;
+import app.util.Toast;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import javafx.collections.FXCollections;
@@ -10,11 +11,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -35,10 +38,12 @@ import static com.mongodb.client.model.Filters.eq;
 
 public class DDBB_Controller implements Initializable {
 
-    //TODO Controlar que no meta mas post si no hay hueco.
+    //TODO Importar correctamente la libreria de mongodb y mejorar el aspecto de los image view.
     private static final ObservableList<ImageView> imageViewList = FXCollections.observableArrayList();
 
     public static int clickedIndex;
+    @FXML
+    private Button createButton;
     @FXML
     private ImageView logoIcon;
     @FXML
@@ -54,10 +59,11 @@ public class DDBB_Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        usernameText.setText(LoginController.username);
+        usernameText.setText(LoginController.username+" posts");
     }
 
     public void initPosts() {
+        imageViewList.clear();
 
         MongoCollection<Document> coll = LoginController.mongoConnector.getCollection("posts");
         try (MongoCursor<Document> cursor = coll.find(eq("creator_id", LoginController.username)).iterator()) {
@@ -100,6 +106,7 @@ public class DDBB_Controller implements Initializable {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("ddbb_post_info.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
+            scene.setFill(Color.TRANSPARENT);
 
             DDBB_Post_Info_Controller controller = fxmlLoader.getController();
             controller.setPostId(id, image);
@@ -112,7 +119,9 @@ public class DDBB_Controller implements Initializable {
             stage.setResizable(false);
             stage.initStyle(StageStyle.TRANSPARENT);
             stage.setScene(scene);
-            stage.showAndWait();
+
+            stage.show();
+            TimeLines.stageDisplay(stage, 0, 1, 0.3);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -128,6 +137,12 @@ public class DDBB_Controller implements Initializable {
                 }
             }
         }
+
+        if (imageViewList.size() == (gridPane.getRowCount()*gridPane.getColumnCount())) {
+            createButton.setVisible(false);
+        }else {
+            createButton.setVisible(true);
+        }
     }
 
     private void updateGridPane() {
@@ -141,6 +156,7 @@ public class DDBB_Controller implements Initializable {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("ddbb-insert.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
+            scene.setFill(Color.TRANSPARENT);
 
             DDBB_InsertController controller = fxmlLoader.getController();
             controller.initController(this);
@@ -152,13 +168,17 @@ public class DDBB_Controller implements Initializable {
             stage.setResizable(false);
             stage.initStyle(StageStyle.TRANSPARENT);
             stage.setScene(scene);
-            stage.showAndWait();
+
+            stage.show();
+            TimeLines.stageDisplay(stage, 0, 1, 0.3);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
     public void setNewPost(ObjectId id, String imageUrl) {
+        Toast.makeText((Stage) gridPane.getScene().getWindow(),"Post created", 1000, 300, 300);
+
         Image image = new Image(imageUrl, 200, 200, true, true);
         ImageView imageView = new ImageView();
 
@@ -216,10 +236,21 @@ public class DDBB_Controller implements Initializable {
         ((Stage) gridPane.getScene().getWindow()).setIconified(true);
     }
     @FXML
-    public void exitHandler() {
+    public void exitHandler() throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("login.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        scene.setFill(Color.TRANSPARENT);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.setTitle("LogIn");
+        stage.getIcons().add(new Image(Objects.requireNonNull(this.getClass().getResource("images/Logo_Style2.png")).openStream()));
+        stage.setScene(scene);
+
+        stage.show();
+        TimeLines.stageDisplay(stage, 0, 1, 0.4);
+
         ((Stage) gridPane.getScene().getWindow()).close();
     }
-
 
     @FXML
     private void onMouseEnteredApp() {

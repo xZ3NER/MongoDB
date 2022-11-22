@@ -8,49 +8,80 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainPane" minWidth="-Infinity" prefHeight="471.0" prefWidth="784.0" stylesheets="@css/app.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.DDBB_Post_Info_Controller">
+<AnchorPane prefHeight="499.0" prefWidth="809.0" stylesheets="@css/app.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.DDBB_Post_Info_Controller">
    <children>
-      <ImageView fitHeight="471.0" fitWidth="786.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@images/BG_post_info.png" />
-         </image>
-      </ImageView>
-      <Pane fx:id="dragablePane" onMouseDragged="#dragHandler" onMousePressed="#pressHandler" onMouseReleased="#releasedHandler" prefHeight="471.0" prefWidth="386.0">
+      <AnchorPane fx:id="mainPane" layoutX="12.0" layoutY="14.0" minWidth="-Infinity" prefHeight="471.0" prefWidth="784.0">
          <children>
-            <TextArea fx:id="titleLabel" editable="false" layoutX="14.0" layoutY="14.0" opacity="0.6" prefHeight="85.0" prefWidth="360.0" />
-            <ImageView fx:id="postImgView" fitHeight="320.0" fitWidth="330.0" layoutX="28.0" layoutY="122.0" pickOnBounds="true" preserveRatio="true" />
-         </children></Pane>
-      <Button layoutX="694.0" layoutY="441.0" mnemonicParsing="false" onMouseClicked="#deleteHandler" prefHeight="25.0" prefWidth="60.0" text="Dᴇʟᴇᴛᴇ">
-         <font>
-            <Font name="Roboto" size="12.0" />
-         </font></Button>
-      <Button fx:id="editButton" layoutX="634.0" layoutY="441.0" mnemonicParsing="false" onMouseClicked="#editButtonHandler" prefHeight="25.0" prefWidth="60.0" text="Eᴅɪᴛ">
-         <font>
-            <Font name="Roboto" size="12.0" />
-         </font></Button>
-      <Button fx:id="confirmButton" layoutX="634.0" layoutY="441.0" mnemonicParsing="false" onMouseClicked="#confirmButtonHandler" prefHeight="25.0" prefWidth="60.0" text="Sᴀᴠᴇ">
-         <font>
-            <Font name="Roboto" size="12.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor></Button>
-      <ImageView fx:id="exitIcon" fitHeight="25.0" fitWidth="25.0" layoutX="759.0" layoutY="442.0" onMouseClicked="#exitHandler" onMouseEntered="#onMouseEnteredExitIcon" onMouseExited="#onMouseExitedExitIcon" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@images/exit.png" />
-         </image>
+            <ImageView fitHeight="471.0" fitWidth="786.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/BG_post_info.png" />
+               </image>
+            </ImageView>
+            <Pane fx:id="dragablePane" onMouseDragged="#dragHandler" onMousePressed="#pressHandler" onMouseReleased="#releasedHandler" prefHeight="471.0" prefWidth="386.0">
+               <children>
+                  <TextArea fx:id="titleLabel" editable="false" layoutX="14.0" layoutY="14.0" prefHeight="85.0" prefWidth="360.0" wrapText="true">
+                     <font>
+                        <Font name="Roboto Black" size="25.0" />
+                     </font>
+                     <effect>
+                        <DropShadow height="15.0" offsetX="1.0" offsetY="1.0" radius="7.0" width="15.0" />
+                     </effect>
+                  </TextArea>
+                  <ImageView fx:id="postImgView" fitHeight="320.0" fitWidth="330.0" layoutX="28.0" layoutY="122.0" pickOnBounds="true" preserveRatio="true">
+                     <effect>
+                        <DropShadow height="15.0" offsetX="1.0" offsetY="1.0" radius="7.0" width="15.0" />
+                     </effect>
+                  </ImageView>
+               </children>
+            </Pane>
+            <Button layoutX="694.0" layoutY="441.0" mnemonicParsing="false" onMouseClicked="#deleteHandler" prefHeight="25.0" prefWidth="60.0" text="Dᴇʟᴇᴛᴇ" textFill="WHITE">
+               <font>
+                  <Font name="Roboto" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="editButton" layoutX="634.0" layoutY="441.0" mnemonicParsing="false" onMouseClicked="#editButtonHandler" prefHeight="25.0" prefWidth="60.0" text="Eᴅɪᴛ" textFill="WHITE">
+               <font>
+                  <Font name="Roboto" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="confirmButton" layoutX="634.0" layoutY="441.0" mnemonicParsing="false" onMouseClicked="#confirmButtonHandler" prefHeight="25.0" prefWidth="60.0" text="Sᴀᴠᴇ" textFill="WHITE" visible="false">
+               <font>
+                  <Font name="Roboto" size="12.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <ImageView fx:id="exitIcon" fitHeight="25.0" fitWidth="25.0" layoutX="759.0" layoutY="442.0" onMouseClicked="#exitHandler" onMouseEntered="#onMouseEnteredExitIcon" onMouseExited="#onMouseExitedExitIcon" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/exit.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+            <TextArea fx:id="post_body_textA" editable="false" layoutX="421.0" layoutY="22.0" prefHeight="390.0" prefWidth="338.0" wrapText="true">
+               <font>
+                  <Font name="Roboto" size="16.0" />
+               </font>
+               <effect>
+                  <DropShadow height="15.0" offsetX="1.0" offsetY="1.0" radius="7.0" width="15.0" />
+               </effect>
+            </TextArea>
+         </children>
          <effect>
-            <DropShadow />
+            <DropShadow height="15.0" radius="7.0" width="15.0">
+               <color>
+                  <Color opacity="0.699999988079071" />
+               </color>
+            </DropShadow>
          </effect>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </ImageView>
-      <TextArea fx:id="post_body_textA" editable="false" layoutX="421.0" layoutY="22.0" opacity="0.5" prefHeight="390.0" prefWidth="338.0" wrapText="true">
-         <font>
-            <Font name="Roboto" size="12.0" />
-         </font></TextArea>
+      </AnchorPane>
    </children>
 </AnchorPane>

@@ -1,11 +1,10 @@
 package app;
 
+import app.util.Toast;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -49,9 +48,23 @@ public class DDBB_Post_Info_Controller {
 
         initPostInfo();
 
+        this.titleLabel.setMouseTransparent(true);
+        this.post_body_textA.setMouseTransparent(true);
+
         this.titleLabel.setText(this.title);
         this.post_body_textA.setText(this.postBody);
         this.postImgView.setImage(image);
+        addTextLimiter();
+    }
+
+    public void addTextLimiter() {
+        int maxLength = 40;
+        titleLabel.textProperty().addListener((observableValue, s, t1) -> {
+            if (titleLabel.getText().length() > maxLength) {
+                String string = titleLabel.getText().substring(0, maxLength);
+                titleLabel.setText(string);
+            }
+        });
     }
 
     private void initPostInfo() {
@@ -83,6 +96,9 @@ public class DDBB_Post_Info_Controller {
 
         this.titleLabel.setEditable(true);
         this.post_body_textA.setEditable(true);
+
+        this.titleLabel.setMouseTransparent(false);
+        this.post_body_textA.setMouseTransparent(false);
     }
 
     @FXML
@@ -93,6 +109,9 @@ public class DDBB_Post_Info_Controller {
         this.titleLabel.setEditable(false);
         this.post_body_textA.setEditable(false);
 
+        this.titleLabel.setMouseTransparent(true);
+        this.post_body_textA.setMouseTransparent(true);
+
         this.title = this.titleLabel.getText();
         this.postBody = this.post_body_textA.getText();
 
@@ -102,6 +121,7 @@ public class DDBB_Post_Info_Controller {
                         new Document("post_info",
                                 new Document("title",title).append("post_body",postBody))));
 
+        Toast.makeText((Stage) mainPane.getScene().getWindow(),"Change saved", 1000, 300, 300);
     }
 
 
