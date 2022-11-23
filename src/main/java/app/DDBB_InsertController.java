@@ -5,14 +5,20 @@ import app.util.Toast;
 import com.mongodb.client.MongoCollection;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Group;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -24,6 +30,8 @@ import java.util.ResourceBundle;
 import static app.util.TimeLines.opacityTimeLine;
 
 public class DDBB_InsertController implements Initializable {
+    @FXML
+    private StackPane imagePane;
     @FXML
     private AnchorPane mainPane;
     @FXML
@@ -44,7 +52,7 @@ public class DDBB_InsertController implements Initializable {
     @FXML
     protected void confirmButtonHandler() {
 
-        if (!(titleInput.getText().isEmpty()) && isImage()) {
+        if (!(titleInput.getText().isEmpty()) && (isImage()!=null)) {
             MongoCollection<Document> coll = LoginController.mongoConnector.getCollection("posts");
             ObjectId objectId = new ObjectId();
             Document doc = new Document("_id", objectId)
@@ -90,21 +98,46 @@ public class DDBB_InsertController implements Initializable {
 
     @FXML
     private void imagePreview() {
-        isImage();
+        this.imagePane.getChildren().clear();
+
+        ImageView iv;
+
+        if((iv=isImage())!=null){
+            Rectangle roundRect = new Rectangle();
+            roundRect.arcWidthProperty().bind(roundRect.heightProperty().divide(16));
+            roundRect.arcHeightProperty().bind(roundRect.heightProperty().divide(16));
+            roundRect.setWidth(iv.getLayoutBounds().getWidth());
+            roundRect.setHeight(iv.getLayoutBounds().getHeight());
+
+            iv.setClip(roundRect);
+
+            Group group = new Group(iv);
+            DropShadow dropShadow = new DropShadow();
+            dropShadow.setWidth(15);
+            dropShadow.setHeight(15);
+            dropShadow.setRadius(7);
+            dropShadow.setColor(Color.web("#000000b3"));
+            group.setEffect(dropShadow);
+
+            this.imagePane.getChildren().add(group);
+            this.imagePane.setAlignment(Pos.CENTER);
+
+            TimeLines.opacityTimeLine(iv,0,1,0.3);
+        }
     }
 
-    private boolean isImage() {
+    private ImageView isImage() {
         try {
+
             Image image = new Image(imageURLInput.getText());
+            ImageView imageView = this.imageView;
             imageView.setImage(image);
 
-            TimeLines.opacityTimeLine(imageView,0,1,0.3);
-
-            return true;
+            return imageView;
         } catch (IllegalArgumentException ignored) {
             Toast.makeText((Stage) mainPane.getScene().getWindow(),"Image not found", 1000, 300, 300);
         }
-        return false;
+        return null;
     }
 
 

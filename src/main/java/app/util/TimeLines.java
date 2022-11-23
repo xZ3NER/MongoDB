@@ -91,21 +91,4 @@ public class TimeLines {
             stage.setOpacity(1);
         });
     }
-
-//    public static void stageMinimize(Stage stage) {
-//        Timeline timeline = new Timeline(
-//                new KeyFrame(Duration.millis(0),
-//                        new KeyValue(stage.opacityProperty(), 1),
-//                        new KeyValue(stage.layoutYProperty(), stage.getLayoutY())
-//                ),
-//                new KeyFrame(Duration.millis(500),
-//                        new KeyValue(stage.opacityProperty(), 0.5),
-//                        new KeyValue(stage.layoutYProperty(), 900 )
-//                )
-//        );
-//        timeline.play();
-//
-//        timeline.setOnFinished(event -> ((Stage) stage.getScene().getWindow()).setIconified(true));
-//    }
-
 }

@@ -4,14 +4,20 @@ import app.util.TimeLines;
 import app.util.Toast;
 import com.mongodb.client.MongoCollection;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -22,7 +28,6 @@ import static app.util.TimeLines.opacityTimeLine;
 import static com.mongodb.client.model.Filters.eq;
 
 public class DDBB_Post_Info_Controller {
-
     private ObjectId postId;
     private String title;
     private String postBody;
@@ -42,6 +47,8 @@ public class DDBB_Post_Info_Controller {
     @FXML
     private ImageView exitIcon;
 
+    @FXML
+    private StackPane imagePane;
 
     public void setPostId(ObjectId postId,Image image) {
         this.postId = postId;
@@ -50,11 +57,32 @@ public class DDBB_Post_Info_Controller {
         initPostInfo();
 
         this.titleLabel.setMouseTransparent(true);
-        this.post_body_textA.setMouseTransparent(true);
 
         this.titleLabel.setText(this.title);
         this.post_body_textA.setText(this.postBody);
-        this.postImgView.setImage(image);
+
+        ImageView imageView = this.postImgView;
+        imageView.setImage(image);
+
+        Rectangle roundRect = new Rectangle();
+        roundRect.arcWidthProperty().bind(roundRect.heightProperty().divide(16));
+        roundRect.arcHeightProperty().bind(roundRect.heightProperty().divide(16));
+        roundRect.setWidth(imageView.getLayoutBounds().getWidth());
+        roundRect.setHeight(imageView.getLayoutBounds().getHeight());
+
+        imageView.setClip(roundRect);
+
+        Group group = new Group(imageView);
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setWidth(15);
+        dropShadow.setHeight(15);
+        dropShadow.setRadius(7);
+        dropShadow.setColor(Color.web("#000000b3"));
+        group.setEffect(dropShadow);
+
+        this.imagePane.getChildren().add(group);
+        this.imagePane.setAlignment(Pos.CENTER);
+
         addTextLimiter();
     }
 
@@ -99,7 +127,6 @@ public class DDBB_Post_Info_Controller {
         this.post_body_textA.setEditable(true);
 
         this.titleLabel.setMouseTransparent(false);
-        this.post_body_textA.setMouseTransparent(false);
     }
 
     @FXML
@@ -111,7 +138,6 @@ public class DDBB_Post_Info_Controller {
         this.post_body_textA.setEditable(false);
 
         this.titleLabel.setMouseTransparent(true);
-        this.post_body_textA.setMouseTransparent(true);
 
         this.title = this.titleLabel.getText();
         this.postBody = this.post_body_textA.getText();

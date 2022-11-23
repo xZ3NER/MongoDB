@@ -8,6 +8,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -37,7 +39,7 @@ import static com.mongodb.client.model.Filters.eq;
 
 public class DDBB_Controller implements Initializable {
 
-    //TODO Importar correctamente la libreria de mongodb y mejorar el aspecto de los image view.
+    //TODO Mejorar el aspecto de los image view en ddbb.fxml
     private static final ObservableList<ImageView> imageViewList = FXCollections.observableArrayList();
 
     public static int clickedIndex;
@@ -132,7 +134,8 @@ public class DDBB_Controller implements Initializable {
         for (int y = 0; y < gridPane.getRowCount(); y++) {
             for (int x = 0; x < gridPane.getColumnCount(); x++) {
                 if (pos < imageViewList.size()) {
-                    gridPane.add(imageViewList.get(pos++), x, y);
+                    gridPane.add(imageViewList.get(pos), x, y);
+                    GridPane.setHalignment(imageViewList.get(pos++), HPos.CENTER);
                 }
             }
         }
